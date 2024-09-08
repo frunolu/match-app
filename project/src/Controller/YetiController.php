@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Yeti;
 use App\Form\YetiType;
 use App\Repository\YetiRepository;
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,10 +18,14 @@ final class YetiController extends AbstractController
 
 
     #[Route(name: 'app_yeti_index', methods: ['GET'])]
-    public function index(YetiRepository $yetiRepository): Response
+    public function index(Connection $connection, YetiRepository $yetiRepository): Response
     {
-        return $this->render('yeti/index.html.twig', [
-            'yetis' => $yetiRepository->findAll(),
+        $sql = 'SELECT * FROM yeti ORDER BY RAND() LIMIT 1';
+        $yeti = $connection->fetchAssociative($sql);
+
+
+        return $this->render('yeti/show.html.twig', [
+            'yeti' => $yeti,
         ]);
     }
 
