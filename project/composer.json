@@ -84,6 +84,10 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "check-code": [
+            "phpstan analyse src",
+            "php-cs-fixer fix --dry-run --diff"
         ]
     },
     "conflict": {
@@ -98,6 +102,7 @@
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.6",
         "fakerphp/faker": "^1.23",
+        "friendsofphp/php-cs-fixer": "^3.64",
         "phpstan/phpstan": "^1.12",
         "phpunit/phpunit": "^9.5",
         "symfony/browser-kit": "7.1.*",
