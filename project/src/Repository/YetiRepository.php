@@ -16,6 +16,20 @@ class YetiRepository extends ServiceEntityRepository
         parent::__construct($registry, Yeti::class);
     }
 
+    // src/Repository/YetiRepository.php
+
+    public function getRatingStatistics(): array
+    {
+        $qb = $this->createQueryBuilder('y');
+
+        $qb->select('YEAR(y.createdAt) as year, MONTH(y.createdAt) as month, AVG(y.rating) as averageRating')
+            ->groupBy('YEAR(y.createdAt), MONTH(y.createdAt)')
+            ->orderBy('YEAR(y.createdAt), MONTH(y.createdAt)', 'ASC');
+
+        return $qb->getQuery()->getArrayResult();
+    }
+
+
     //    /**
     //     * @return Yeti[] Returns an array of Yeti objects
     //     */

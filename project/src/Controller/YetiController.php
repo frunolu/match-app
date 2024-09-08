@@ -113,25 +113,19 @@ final class YetiController extends AbstractController
 
         return $this->redirectToRoute('app_yeti_index', [], Response::HTTP_SEE_OTHER);
     }
-    #[Route('/statistics', name: 'yeti_statistics')]
-    public function statistics(Connection $connection): Response
+
+    #[Route('/stats', name: 'app_yeti_stats', methods: ['GET'])]
+    public function stats(YetiRepository $yetiRepository): Response
     {
-        $sql = '
-        SELECT
-            YEAR(created_at) AS year,
-            MONTH(created_at) AS month,
-            DAY(created_at) AS day,
-            AVG(score) AS average
-        FROM rating
-        GROUP BY year, month, day
-        ORDER BY year, month, day
-    ';
-        $statistics = $connection->fetchAllAssociative($sql);
+        // Fetch statistics data
+        $stats = $yetiRepository->getRatingStatistics();
 
-
-        return $this->render('yeti/statistics.html.twig', [
-            'statistics' => $statistics,
+        // Render the statistics page with the data
+        return $this->render('yeti/stats.html.twig', [
+            'stats' => $stats,
         ]);
     }
+
+
 
 }
