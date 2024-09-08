@@ -1,20 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello YetiController!{% endblock %}
+{% block title %}Yeti index{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <h1>Yeti index</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Height</th>
+                <th>Weight</th>
+                <th>Location</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for yeti in yetis %}
+            <tr>
+                <td>{{ yeti.id }}</td>
+                <td>{{ yeti.Name }}</td>
+                <td>{{ yeti.gender }}</td>
+                <td>{{ yeti.height }}</td>
+                <td>{{ yeti.weight }}</td>
+                <td>{{ yeti.location }}</td>
+                <td>
+                    <a href="{{ path('app_yeti_show', {'id': yeti.id}) }}">show</a>
+                    <a href="{{ path('app_yeti_edit', {'id': yeti.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/project/src/Controller/YetiController.php</code></li>
-        <li>Your template at <code>/project/templates/yeti/index.html.twig</code></li>
-    </ul>
-</div>
+    <a href="{{ path('app_yeti_new') }}">Create new</a>
 {% endblock %}

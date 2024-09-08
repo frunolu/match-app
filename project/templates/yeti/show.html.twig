@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Yeti{% endblock %}
+
+{% block body %}
+    <h1>Yeti</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ yeti.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ yeti.Name }}</td>
+            </tr>
+            <tr>
+                <th>Gender</th>
+                <td>{{ yeti.gender }}</td>
+            </tr>
+            <tr>
+                <th>Height</th>
+                <td>{{ yeti.height }}</td>
+            </tr>
+            <tr>
+                <th>Weight</th>
+                <td>{{ yeti.weight }}</td>
+            </tr>
+            <tr>
+                <th>Location</th>
+                <td>{{ yeti.location }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_yeti_index') }}">back to list</a>
+
+    <a href="{{ path('app_yeti_edit', {'id': yeti.id}) }}">edit</a>
+
+    {{ include('yeti/_delete_form.html.twig') }}
+{% endblock %}
