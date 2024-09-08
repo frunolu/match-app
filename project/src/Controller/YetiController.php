@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Yeti;
+use App\Form\RatingType;
 use App\Form\YetiType;
 use App\Repository\YetiRepository;
 use Doctrine\DBAL\Connection;
@@ -29,8 +30,8 @@ final class YetiController extends AbstractController
         ]);
     }
 
-    #[Route('/yeti/random', name: 'yeti_random')]
-    public function showRandomYeti(EntityManagerInterface $entityManager): Response
+    #[Route('/random', name: 'yeti_random')]
+    public function showRandomYeti(Request $request, EntityManagerInterface $entityManager): Response
     {
         $yetis = $entityManager->getRepository(Yeti::class)->findAll();
 
@@ -40,40 +41,71 @@ final class YetiController extends AbstractController
 
         $randomYeti = $yetis[array_rand($yetis)];
 
+        $form = $this->createForm(RatingType::class, $randomYeti, [
+            'action' => $this->generateUrl('yeti_rate', ['id' => $randomYeti->getId()])
+        ]);
+
         return $this->render('yeti/show.html.twig', [
             'yeti' => $randomYeti,
+            'form' => $form->createView(),
         ]);
     }
-    #[Route('/yeti/rate/{id}', name: 'yeti_rate')]
-    public function rateYeti(Yeti $yeti, Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(RatingType::class, $yeti);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+    #[Route('/rate/{id}', name: 'yeti_rate', methods: ['POST'])]
+    public function rateYeti(Request $request, Yeti $yeti, EntityManagerInterface $entityManager): Response
+    {
+        $rating = $request->request->get('rating');
+
+        if ($rating) {
+            $yeti->setRating((int) $rating);
             $entityManager->persist($yeti);
             $entityManager->flush();
-
-            return $this->redirectToRoute('yeti_random');
         }
 
-        return $this->render('yeti/rate.html.twig', [
-            'form' => $form->createView(),
+        return $this->redirectToRoute('app_yeti_show', ['id' => $yeti->getId()]);
+    }
+
+
+    #[Route('/{id}', name: 'app_yeti_show', methods: ['GET', 'POST'])]
+    public function show(Yeti $yeti, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        // Create the form and set the action to the route that handles form submission
+        $form = $this->createForm(RatingType::class, $yeti, [
+            'action' => $this->generateUrl('yeti_rate', ['id' => $yeti->getId()])
+        ]);
+
+        // Handle form submission
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            // Redirect after successful form submission
+            return $this->redirectToRoute('app_yeti_show', ['id' => $yeti->getId()]);
+        }
+
+        return $this->render('yeti/show.html.twig', [
             'yeti' => $yeti,
+            'form' => $form->createView(),
         ]);
     }
 
-    #[Route('/yeti/statistics', name: 'yeti_statistics')]
-    public function statistics(EntityManagerInterface $entityManager): Response
+
+    #[Route('/statistics', name: 'yeti_statistics')]
+    public function statistics(Connection $connection): Response
     {
-        $query = $entityManager->createQuery(
-            'SELECT AVG(y.rating) as avgRating, COUNT(y.id) as totalYetis
-         FROM App\Entity\Yeti y'
-        );
-        $stats = $query->getSingleResult();
+        $sql = '
+        SELECT
+            YEAR(created_at) AS year,
+            MONTH(created_at) AS month,
+            AVG(score) AS average
+        FROM rating
+        GROUP BY year, month
+        ORDER BY year, month
+    ';
+        $statistics = $connection->fetchAllAssociative($sql);
 
         return $this->render('yeti/statistics.html.twig', [
-            'stats' => $stats,
+            'statistics' => $statistics,
         ]);
     }
 
@@ -96,14 +128,6 @@ final class YetiController extends AbstractController
         return $this->render('yeti/new.html.twig', [
             'yeti' => $yeti,
             'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_yeti_show', methods: ['GET'])]
-    public function show(Yeti $yeti): Response
-    {
-        return $this->render('yeti/show.html.twig', [
-            'yeti' => $yeti,
         ]);
     }
 

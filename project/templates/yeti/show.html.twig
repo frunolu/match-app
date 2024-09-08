@@ -1,8 +1,8 @@
-{# templates/yeti/random.html.twig #}
+{# templates/yeti/show.html.twig #}
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Random Yeti</title>
+    <title>Yeti Details</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,21 +24,40 @@
     </style>
 </head>
 <body>
-<h1>Random Yeti</h1>
+<h1>Yeti Details</h1>
 {% if yeti %}
     <div class="yeti-container">
         <h2>{{ yeti.name }}</h2>
-{#        <img src="{{ yeti.image }}" alt="{{ yeti.name }}">#}
-{#        <p><strong>Description:</strong> {{ yeti.description }}</p>#}
+        {# <img src="{{ yeti.image }}" alt="{{ yeti.name }}"> #}
+        {# <p><strong>Description:</strong> {{ yeti.description }}</p> #}
         <p><strong>Height:</strong> {{ yeti.height }} meters</p>
         <p><strong>Weight:</strong> {{ yeti.weight }} kg</p>
         <p><strong>Location:</strong> {{ yeti.location }}</p>
         <p><strong>Rating:</strong> {{ yeti.rating }}</p>
         <p><strong>Gender:</strong> {{ yeti.gender }}</p>
     </div>
+    <div class="rating-form">
+        <form action="{{ path('yeti_rate', { 'id': yeti.id }) }}" method="post">
+            <div class="form-group">
+                <label for="rating">Rate this Yeti:</label>
+                <input type="number" id="rating" name="rating" class="form-control" min="1" max="5" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Rating</button>
+        </form>
+    </div>
 {% else %}
     <p>No Yeti found.</p>
 {% endif %}
-<a href="{{ path('yeti_random') }}">Get Another Yeti</a>
+<div class="navigation mt-4">
+    <a href="{{ path('app_home') }}">Back to list of Yetis</a>
+    <span> | </span>
+    <a href="{{ path('yeti_random') }}">Get Another Random Yeti</a>
+    <span> | </span>
+    <a href="{{ path('yeti_statistics') }}">View Rating Statistics</a>
+</div>
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
