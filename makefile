@@ -8,7 +8,7 @@ composer-install:
 	docker-compose exec php su --command="composer -n install --prefer-dist" www-data
 
 cache-clean:
-	git clean -fdX project/temp/
+	git clean -fdX project/var/cache/*
 
 start: up composer-install
 
