@@ -1,0 +1,29 @@
+stack:
+PHP, symfony, docker
+
+
+docker
+symfony
+
+
+app funkce
+
+uvodni stranka tabulka 10 yeti s popisem
+
+
+Yetinder
+Toto je hlavní funkční část aplikace. Na stránce vyber Yetiho který se nejvíc hodí pro aktuálního návštěvníka
+stránek a zobraz o něm detaily. Matchovací algoritmus je na tobě. I random je algoritmus :-) Yetiho bude možné
+ohodnotit. Nabízí se +1/-1 nebo hvězdičky nebo cokoli jiného. Hodnocení se uloží a zobrazí se další Yeti.
+
+
+Statistika hodnocení
+Na stránce bude jednoduchá statistika hodnocení všech Yeti za jednotlivé roky či měsíce či dny. Například jako
+tabulka nebo graf či obojí. Je prakticky jedno, co za statistiku tam bude, hlavně že si vyzkoušíš pár agregačních
+dotazů obohacených o práci s datumem.
+
+
+
+
+
+-
