@@ -2,6 +2,8 @@
 
 namespace App\Command;
 
+use App\Entity\Yeti;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -9,15 +11,18 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Faker\Factory as FakerFactory;
 
 #[AsCommand(
     name: 'app:generate-yeti-data',
-    description: 'Add a short description for your command',
+    description: 'Generates random Yeti data.',
 )]
 class GenerateYetiDataCommand extends Command
 {
-    public function __construct()
+    private $entityManager;
+    public function __construct(EntityManagerInterface $entityManager)
     {
+        $this->entityManager = $entityManager;
         parent::__construct();
     }
 
@@ -31,18 +36,26 @@ class GenerateYetiDataCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
-        $arg1 = $input->getArgument('arg1');
+        $faker = FakerFactory::create();
+        $manager = $this->entityManager;
 
-        if ($arg1) {
-            $io->note(sprintf('You passed an argument: %s', $arg1));
+        for ($i = 0; $i < 10; $i++) {
+            $yeti = new Yeti();
+            $yeti->setName($faker->name)
+                ->setGender($faker->randomElement(['Male', 'Female']))
+                ->setHeight($faker->numberBetween(150, 300))
+                ->setWeight($faker->numberBetween(50, 150))
+                ->setLocation($faker->city)
+//                ->setCreatedAt(new \DateTimeImmutable())
+//                ->setUpdatedAt(new \DateTimeImmutable())
+            ;
+
+            $manager->persist($yeti);
         }
 
-        if ($input->getOption('option1')) {
-            // ...
-        }
+        $manager->flush();
 
-        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
+        $output->writeln('Yeti data generated successfully!');
 
         return Command::SUCCESS;
     }
