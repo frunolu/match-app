@@ -14,9 +14,6 @@
                 <th>Height</th>
                 <th>Weight</th>
                 <th>Location</th>
-                <th>Rating</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -24,14 +21,11 @@
         {% for yeti in yetis %}
             <tr>
                 <td>{{ yeti.id }}</td>
-                <td>{{ yeti.name }}</td>
+                <td>{{ yeti.Name }}</td>
                 <td>{{ yeti.gender }}</td>
                 <td>{{ yeti.height }}</td>
                 <td>{{ yeti.weight }}</td>
                 <td>{{ yeti.location }}</td>
-                <td>{{ yeti.rating }}</td>
-                <td>{{ yeti.createdAt ? yeti.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ yeti.updatedAt ? yeti.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('app_yeti_show', {'id': yeti.id}) }}">show</a>
                     <a href="{{ path('app_yeti_edit', {'id': yeti.id}) }}">edit</a>
@@ -39,7 +33,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="10">no records found</td>
+                <td colspan="7">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

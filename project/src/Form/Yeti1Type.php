@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class YetiType extends AbstractType
+class Yeti1Type extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -16,8 +16,8 @@ class YetiType extends AbstractType
             ->add('gender')
             ->add('height')
             ->add('weight')
-            ->add('rating')
             ->add('location')
+            ->add('rating')
         ;
     }
 
