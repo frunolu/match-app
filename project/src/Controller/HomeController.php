@@ -15,7 +15,7 @@ class HomeController extends AbstractController
         $qb = $connection->createQueryBuilder();
         $qb->select('*')
             ->from('yeti')
-            ->orderBy('rating', 'DESC')
+//            ->orderBy('rating', 'DESC')
             ->setMaxResults(10);
 
         $bestYetis = $qb->executeQuery()->fetchAllAssociative();

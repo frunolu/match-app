@@ -24,6 +24,56 @@ final class YetiController extends AbstractController
         ]);
     }
 
+    #[Route('/yeti/random', name: 'yeti_random')]
+    public function showRandomYeti(EntityManagerInterface $entityManager): Response
+    {
+        $yetis = $entityManager->getRepository(Yeti::class)->findAll();
+
+        if (!$yetis) {
+            throw $this->createNotFoundException('No Yetis found!');
+        }
+
+        $randomYeti = $yetis[array_rand($yetis)];
+
+        return $this->render('yeti/show.html.twig', [
+            'yeti' => $randomYeti,
+        ]);
+    }
+    #[Route('/yeti/rate/{id}', name: 'yeti_rate')]
+    public function rateYeti(Yeti $yeti, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(RatingType::class, $yeti);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($yeti);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('yeti_random');
+        }
+
+        return $this->render('yeti/rate.html.twig', [
+            'form' => $form->createView(),
+            'yeti' => $yeti,
+        ]);
+    }
+
+    #[Route('/yeti/statistics', name: 'yeti_statistics')]
+    public function statistics(EntityManagerInterface $entityManager): Response
+    {
+        $query = $entityManager->createQuery(
+            'SELECT AVG(y.rating) as avgRating, COUNT(y.id) as totalYetis
+         FROM App\Entity\Yeti y'
+        );
+        $stats = $query->getSingleResult();
+
+        return $this->render('yeti/statistics.html.twig', [
+            'stats' => $stats,
+        ]);
+    }
+
+
+
     #[Route('/new', name: 'app_yeti_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
