@@ -138,4 +138,10 @@ class Yeti
         $this->updatedAt = new DateTimeImmutable();
     }
 
+    public function setCreatedAt(DateTimeImmutable $param)
+    {
+        $this->createdAt = new DateTimeImmutable();
+    }
+
+
 }
