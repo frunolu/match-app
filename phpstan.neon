@@ -1,0 +1,9 @@
+# phpstan.neon
+parameters:
+    level: max  # You can use a lower level (0-9) for less strict checks
+    paths:
+        - src  # Directories to be analyzed
+    autoload_files:
+        - %rootDir%/../../../vendor/autoload.php  # Adjust if necessary
+    bootstrapFiles:
+        - %rootDir%/../../../vendor/autoload.php
