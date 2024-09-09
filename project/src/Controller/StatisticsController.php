@@ -24,7 +24,7 @@ class StatisticsController extends AbstractController
     ';
         $statistics = $connection->fetchAllAssociative($sql);
 
-        return $this->render('yeti/statistics.html.twig', [
+        return $this->render('statistics/index.html.twig', [
             'statistics' => $statistics,
         ]);
     }
