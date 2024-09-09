@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello StatisticsController!{% endblock %}
+
+{% block body %}
+    <table>
+        <thead>
+        <tr>
+            <th>Year</th>
+            <th>Month</th>
+            <th>Day</th>
+            <th>Average Rating</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for stat in statistics %}
+            <tr>
+                <td>{{ stat.year }}</td>
+                <td>{{ stat.month }}</td>
+                <td>{{ stat.day }}</td>
+                <td>{{ stat.average|number_format(2) }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <canvas id="ratingChart"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('ratingChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {{ statistics|map(stat => stat.year ~ '-' ~ stat.month ~ '-' ~ stat.day)|json_encode|raw }},
+                datasets: [{
+                    label: 'Average Rating',
+                    data: {{ statistics|map(stat => stat.average)|json_encode|raw }},
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    fill: false
+                }]
+            }
+        });
+    </script>
+
+
+{% endblock %}
