@@ -4,6 +4,8 @@ composer run check-code
 vendor/bin/php-cs-fixer fix
 vendor/bin/phpstan analyse src
 
+php bin/console doctrine:query:sql 'SELECT * FROM yeti'
+
 
 php bin/console make:entity --regenerate
 

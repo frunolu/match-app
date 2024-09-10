@@ -20,7 +20,7 @@ migration:
 	docker-compose exec -T php su --command="echo 'yes' | bin/console doctrine:migration:migrate" www-data
 
 
-start: down up composer-install migration yeti-data gap gap info credentials gap gap php
+start: down up composer-install migration yeti-data gap gap info credentials gap gap php display-yeti-data
 
 info:
 	@echo "------------------------------------------------------"
@@ -39,3 +39,4 @@ credentials:
 	@echo "Password: toor"
 	@echo "Database: mydb"
 	@echo "------------------------------------------------------"
+

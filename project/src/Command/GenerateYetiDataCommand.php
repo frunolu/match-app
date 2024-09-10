@@ -33,7 +33,7 @@ class GenerateYetiDataCommand extends Command
 
                 $yeti = new Yeti();
                 $yeti->setName($faker->name)
-                    ->setGender($faker->randomElement(['Male', 'Female']))
+                    ->setGender($faker->randomElement(['Male', 'Female', 'Other']))
                     ->setHeight($faker->numberBetween(150, 300))
                     ->setWeight($faker->numberBetween(50, 150))
                     ->setLocation($faker->city)

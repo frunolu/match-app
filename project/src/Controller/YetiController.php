@@ -114,18 +114,4 @@ final class YetiController extends AbstractController
         return $this->redirectToRoute('app_yeti_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/stats', name: 'app_yeti_stats', methods: ['GET'])]
-    public function stats(YetiRepository $yetiRepository): Response
-    {
-        // Fetch statistics data
-        $stats = $yetiRepository->getRatingStatistics();
-
-        // Render the statistics page with the data
-        return $this->render('yeti/stats.html.twig', [
-            'stats' => $stats,
-        ]);
-    }
-
-
-
 }
