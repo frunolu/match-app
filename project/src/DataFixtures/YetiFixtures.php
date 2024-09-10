@@ -19,9 +19,8 @@ class YetiFixtures extends Fixture
                 ->setHeight($faker->numberBetween(150, 300))
                 ->setWeight($faker->numberBetween(50, 150))
                 ->setLocation($faker->city)
-//                ->setCreatedAt(new \DateTimeImmutable())
-//                ->setUpdatedAtValue(new \DateTimeImmutable()
-//                )
+                ->setCreatedAt(new \DateTimeImmutable())
+                ->setUpdatedAt(new \DateTimeImmutable())
             ;
 
             $manager->persist($yeti);

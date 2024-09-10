@@ -10,7 +10,7 @@ composer-install:
 cache-clean:
 	git clean -fdX project/var/cache/*
 
-start: down up composer-install yeti-data php
+
 
 php:
 	docker exec -it --user www-data match-app_php_1 bash
@@ -18,3 +18,7 @@ php:
 yeti-data:
 	docker-compose exec php su --command="bin/console app:generate-yeti-data" www-data
 
+migration:
+	docker-compose exec -T php su --command="echo 'yes' | bin/console doctrine:migration:migrate" www-data
+
+start: down up composer-install migration yeti-data php

@@ -4,10 +4,11 @@ namespace App\Form;
 
 use App\Entity\Yeti;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class Yeti1Type extends AbstractType
+class YetiType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -18,6 +19,16 @@ class Yeti1Type extends AbstractType
             ->add('weight')
             ->add('location')
             ->add('rating')
+            ->add('createdAt',
+                DateTimeType::class,
+                ['data' => new \DateTime(),
+                'widget' => 'single_text',])
+        ->add('updatedAt',
+        DateTimeType::class,
+        ['data' => new \DateTime(),
+            'widget' => 'single_text',]);
+
+
         ;
     }
 

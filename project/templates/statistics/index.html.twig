@@ -8,18 +8,28 @@
     <table>
         <thead>
         <tr>
-            <th>Year</th>
-            <th>Month</th>
-            <th>Day</th>
+            {% if period == 'day' %}
+                <th>Date</th>
+            {% elseif period == 'month' %}
+                <th>Year</th>
+                <th>Month</th>
+            {% elseif period == 'year' %}
+                <th>Year</th>
+            {% endif %}
             <th>Average Rating</th>
         </tr>
         </thead>
         <tbody>
         {% for stat in statistics %}
             <tr>
-                <td>{{ stat.year }}</td>
-                <td>{{ stat.month }}</td>
-                <td>{{ stat.day }}</td>
+                {% if period == 'day' %}
+                    <td>{{ stat.period }}</td>
+                {% elseif period == 'month' %}
+                    <td>{{ stat.period.year }}</td>
+                    <td>{{ stat.period.month }}</td>
+                {% elseif period == 'year' %}
+                    <td>{{ stat.period }}</td>
+                {% endif %}
                 <td>{{ stat.average|number_format(2) }}</td>
             </tr>
         {% endfor %}
@@ -34,7 +44,7 @@
         const chart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: {{ statistics|map(stat => stat.year ~ '-' ~ stat.month ~ '-' ~ stat.day)|json_encode|raw }},
+                labels: {{ statistics|map(stat => period == 'day' ? stat.period : (period == 'month' ? stat.period.year ~ '-' ~ stat.period.month : stat.period))|json_encode|raw }},
                 datasets: [{
                     label: 'Average Rating',
                     data: {{ statistics|map(stat => stat.average)|json_encode|raw }},

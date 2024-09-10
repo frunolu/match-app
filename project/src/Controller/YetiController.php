@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Yeti;
 use App\Form\RatingType;
-use App\Form\Yeti1Type;
+use App\Form\YetiType;
 use App\Repository\YetiRepository;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,7 +28,7 @@ final class YetiController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $yeti = new Yeti();
-        $form = $this->createForm(Yeti1Type::class, $yeti);
+        $form = $this->createForm(YetiType::class, $yeti);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -88,7 +88,7 @@ final class YetiController extends AbstractController
     #[Route('/{id}/edit', name: 'app_yeti_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Yeti $yeti, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(Yeti1Type::class, $yeti);
+        $form = $this->createForm(YetiType::class, $yeti);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
