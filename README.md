@@ -33,11 +33,28 @@ Executing script cache:clear [OK]
 Executing script assets:install public [OK]
 Executing script importmap:install [OK]
 
+docker-compose exec -T php su --command="echo 'yes' | bin/console doctrine:migration:migrate" www-data
+
+ WARNING! You are about to execute a migration in database "mydb" that could result in schema changes and data loss. Are you sure you wish to continue? (yes/no) [yes]:
+ > 
+[notice] Migrating up to DoctrineMigrations\Version20240909082703
+[warning] Migration DoctrineMigrations\Version20240908075708 was executed but did not result in any SQL statements.
+[notice] finished in 793.3ms, used 22M memory, 4 migrations executed, 5 sql queries
+ [OK] Successfully migrated to version: DoctrineMigrations\Version20240909082703
+
+
 docker-compose exec php su --command="bin/console app:generate-yeti-data" www-data
 Yeti data generated successfully!
+The web server can be accessed at http://localhost:80.
+Adminer is available at http://localhost:8080.
+Here are the login credentials for Adminer:
+System: MySQL
+Server: db
+Username: root
+Password: toor
+Database: mydb
 docker exec -it --user www-data match-app_php_1 bash
-www-data@88d4e52f1032:/project$ 
-
+www-data@61a47a438147:/project$ 
 ```
 
 Pomocí příkazu ```bin/console app:generate-yeti-data``` můžeme vytvořit falešná data. 
@@ -85,11 +102,28 @@ Executing script cache:clear [OK]
 Executing script assets:install public [OK]
 Executing script importmap:install [OK]
 
+docker-compose exec -T php su --command="echo 'yes' | bin/console doctrine:migration:migrate" www-data
+
+ WARNING! You are about to execute a migration in database "mydb" that could result in schema changes and data loss. Are you sure you wish to continue? (yes/no) [yes]:
+ > 
+[notice] Migrating up to DoctrineMigrations\Version20240909082703
+[warning] Migration DoctrineMigrations\Version20240908075708 was executed but did not result in any SQL statements.
+[notice] finished in 793.3ms, used 22M memory, 4 migrations executed, 5 sql queries
+ [OK] Successfully migrated to version: DoctrineMigrations\Version20240909082703
+
+
 docker-compose exec php su --command="bin/console app:generate-yeti-data" www-data
 Yeti data generated successfully!
+The web server can be accessed at http://localhost:80.
+Adminer is available at http://localhost:8080.
+Here are the login credentials for Adminer:
+System: MySQL
+Server: db
+Username: root
+Password: toor
+Database: mydb
 docker exec -it --user www-data match-app_php_1 bash
-www-data@88d4e52f1032:/project$ 
-
+www-data@61a47a438147:/project$ 
 ```
 
 Using the command ```bin/console app:generate-yeti-data```, we can generate fake data. 

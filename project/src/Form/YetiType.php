@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Yeti;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,6 +20,15 @@ class YetiType extends AbstractType
             ->add('weight')
             ->add('location')
             ->add('rating')
+            ->add('rating', ChoiceType::class, [
+                'choices' => [
+                    '1' => 1,
+                    '2' => 2,
+                    '3' => 3,
+                    '4' => 4,
+                    '5' => 5,
+                ],
+            ])
             ->add('createdAt',
                 DateTimeType::class,
                 ['data' => new \DateTime(),

@@ -1,57 +1,133 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Yeti Statistics{% endblock %}
+{% block title %}Yeti Rating Statistics{% endblock %}
 
 {% block body %}
-    <h1>Yeti Statistics</h1>
+    <h1>Yeti Rating Statistics</h1>
 
-    <table>
-        <thead>
-        <tr>
-            {% if period == 'day' %}
-                <th>Date</th>
-            {% elseif period == 'month' %}
-                <th>Year</th>
-                <th>Month</th>
-            {% elseif period == 'year' %}
-                <th>Year</th>
-            {% endif %}
-            <th>Average Rating</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for stat in statistics %}
+    <!-- Tab Links -->
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'table')">Table</button>
+        <button class="tablinks" onclick="openTab(event, 'chart')">Chart</button>
+    </div>
+
+    <!-- Tab Content -->
+
+    <!-- Table Tab -->
+    <div id="table" class="tabcontent">
+        <table>
+            <thead>
             <tr>
-                {% if period == 'day' %}
-                    <td>{{ stat.period }}</td>
-                {% elseif period == 'month' %}
-                    <td>{{ stat.period.year }}</td>
-                    <td>{{ stat.period.month }}</td>
-                {% elseif period == 'year' %}
-                    <td>{{ stat.period }}</td>
-                {% endif %}
-                <td>{{ stat.average|number_format(2) }}</td>
+                <th>Rating Score</th>
+                <th>Number of Yetis</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for stat in statistics %}
+                <tr>
+                    <td>{{ stat.rating }}</td>
+                    <td>{{ stat.count }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-    <canvas id="ratingChart"></canvas>
+    <!-- Chart Tab -->
+    <div id="chart" class="tabcontent">
+        <canvas id="ratingChart"></canvas>
+    </div>
 
+    <!-- Chart.js Setup -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const ctx = document.getElementById('ratingChart').getContext('2d');
         const chart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: {
-                labels: {{ statistics|map(stat => period == 'day' ? stat.period : (period == 'month' ? stat.period.year ~ '-' ~ stat.period.month : stat.period))|json_encode|raw }},
+                labels: {{ statistics|map(stat => stat.rating)|json_encode|raw }},
                 datasets: [{
-                    label: 'Average Rating',
-                    data: {{ statistics|map(stat => stat.average)|json_encode|raw }},
+                    label: 'Number of Yetis',
+                    data: {{ statistics|map(stat => stat.count)|json_encode|raw }},
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
                     borderColor: 'rgba(75, 192, 192, 1)',
-                    fill: false
+                    borderWidth: 1
                 }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
             }
         });
     </script>
+
+    <!-- Tab JavaScript -->
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // By default, open the Table tab
+        document.getElementById("table").style.display = "block";
+        document.getElementsByClassName("tablinks")[0].classList.add("active");
+    </script>
+
+    <!-- CSS for Tabs -->
+    <style>
+        .tab {
+            overflow: hidden;
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+        }
+
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+        .tabcontent {
+            display: none;
+        }
+
+        #table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #table th, #table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #table th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+    </style>
 {% endblock %}

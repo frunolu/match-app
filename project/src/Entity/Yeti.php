@@ -138,10 +138,12 @@ class Yeti
         $this->updatedAt = new DateTimeImmutable();
     }
 
-    public function setCreatedAt(DateTimeImmutable $param)
+    public function setCreatedAt(DateTimeImmutable $createdAt): static
     {
-        $this->createdAt = new DateTimeImmutable();
+        $this->createdAt = $createdAt;
+        return $this;
     }
+
 
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
     {
