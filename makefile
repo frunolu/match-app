@@ -10,6 +10,11 @@ composer-install:
 cache-clean:
 	git clean -fdX project/var/cache/*
 
-start: up composer-install
+start: down up composer-install yeti-data php
 
-# docker exec -it --user www-data _php_1 bash
+php:
+	docker exec -it --user www-data match-app_php_1 bash
+
+yeti-data:
+	docker-compose exec php su --command="bin/console app:generate-yeti-data" www-data
+
