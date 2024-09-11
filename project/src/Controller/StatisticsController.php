@@ -12,13 +12,13 @@ class StatisticsController extends AbstractController
     #[Route('/statistics', name: 'yeti_statistics')]
     public function statistics(Connection $connection): Response
     {
-        $sqlCountYetis = "
+        $sqlCountYetis = '
             SELECT rating, COUNT(*) AS count
             FROM yeti
             WHERE rating IS NOT NULL
             GROUP BY rating
             ORDER BY rating
-        ";
+        ';
 
         $statistics = $connection->fetchAllAssociative($sqlCountYetis);
 
@@ -27,5 +27,3 @@ class StatisticsController extends AbstractController
         ]);
     }
 }
-
-

@@ -29,21 +29,21 @@ class GenerateYetiDataCommand extends Command
         $faker = FakerFactory::create();
         $manager = $this->entityManager;
 
-        for ($j = 0; $j < 10; $j++) {
+        for ($j = 0; $j < 10; ++$j) {
 
-                $yeti = new Yeti();
-                $yeti->setName($faker->name)
-                    ->setGender($faker->randomElement(['Male', 'Female', 'Other']))
-                    ->setHeight($faker->numberBetween(150, 300))
-                    ->setWeight($faker->numberBetween(50, 150))
-                    ->setLocation($faker->city)
-                    ->setRating($faker->numberBetween(1, 5));
+            $yeti = new Yeti();
+            $yeti->setName($faker->name)
+                ->setGender($faker->randomElement(['Male', 'Female', 'Other']))
+                ->setHeight($faker->numberBetween(150, 300))
+                ->setWeight($faker->numberBetween(50, 150))
+                ->setLocation($faker->city)
+                ->setRating($faker->numberBetween(1, 5));
 
-                $creationTime = (new \DateTimeImmutable())->add(new \DateInterval('PT' . $j . 'S'));
-                $yeti->setCreatedAt($creationTime)
-                    ->setUpdatedAt($creationTime);
+            $creationTime = (new \DateTimeImmutable())->add(new \DateInterval('PT'.$j.'S'));
+            $yeti->setCreatedAt($creationTime)
+                ->setUpdatedAt($creationTime);
 
-                $manager->persist($yeti);
+            $manager->persist($yeti);
 
         }
 

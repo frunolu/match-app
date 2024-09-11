@@ -29,17 +29,21 @@ class YetiType extends AbstractType
                     '5' => 5,
                 ],
             ])
-            ->add('createdAt',
+            ->add(
+                'createdAt',
                 DateTimeType::class,
                 ['data' => new \DateTime(),
-                'widget' => 'single_text',])
-        ->add('updatedAt',
-        DateTimeType::class,
-        ['data' => new \DateTime(),
-            'widget' => 'single_text',]);
+                    'widget' => 'single_text', ]
+            )
+        ->add(
+            'updatedAt',
+            DateTimeType::class,
+            ['data' => new \DateTime(),
+                'widget' => 'single_text', ]
+        );
 
 
-        ;
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void

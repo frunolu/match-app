@@ -1,4 +1,5 @@
 <?php
+
 namespace App\DataFixtures;
 
 use App\Entity\Yeti;
@@ -12,7 +13,7 @@ class YetiFixtures extends Fixture
     {
         $faker = FakerFactory::create();
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; ++$i) {
             $yeti = new Yeti();
             $yeti->setName($faker->name)
                 ->setGender($faker->randomElement(['Male', 'Female']))
@@ -30,4 +31,3 @@ class YetiFixtures extends Fixture
         $manager->flush();
     }
 }
-

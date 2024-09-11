@@ -2,18 +2,18 @@
 
 namespace App\Repository;
 
-    use App\Entity\Yeti;
-    use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-    use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\Yeti;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
-    /**
-     * @extends ServiceEntityRepository<Yeti>
-     *
-     * @method Yeti|null find($id, $lockMode = null, $lockVersion = null)
-     * @method Yeti|null findOneBy(array $criteria, array $orderBy = null)
-     * @method Yeti[]    findAll()
-     * @method Yeti[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-     */
+/**
+ * @extends ServiceEntityRepository<Yeti>
+ *
+ * @method Yeti|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Yeti|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Yeti[]    findAll()
+ * @method Yeti[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
 class StatisticsRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)

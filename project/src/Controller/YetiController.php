@@ -6,7 +6,6 @@ use App\Entity\Yeti;
 use App\Form\RatingType;
 use App\Form\YetiType;
 use App\Repository\YetiRepository;
-use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,6 +42,7 @@ final class YetiController extends AbstractController
             'form' => $form,
         ]);
     }
+
     #[Route('/', name: 'yeti_random')]
     public function showRandomYeti(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -55,7 +55,7 @@ final class YetiController extends AbstractController
         $randomYeti = $yetis[array_rand($yetis)];
 
         $form = $this->createForm(RatingType::class, $randomYeti, [
-            'action' => $this->generateUrl('yeti_rate', ['id' => $randomYeti->getId()])
+            'action' => $this->generateUrl('yeti_rate', ['id' => $randomYeti->getId()]),
         ]);
 
         return $this->render('yeti/show.html.twig', [
@@ -77,6 +77,7 @@ final class YetiController extends AbstractController
 
         return $this->redirectToRoute('app_yeti_show', ['id' => $yeti->getId()]);
     }
+
     #[Route('/{id}', name: 'app_yeti_show', methods: ['GET'])]
     public function show(Yeti $yeti): Response
     {
@@ -113,5 +114,4 @@ final class YetiController extends AbstractController
 
         return $this->redirectToRoute('app_yeti_index', [], Response::HTTP_SEE_OTHER);
     }
-
 }

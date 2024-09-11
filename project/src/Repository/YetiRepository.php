@@ -16,7 +16,6 @@ class YetiRepository extends ServiceEntityRepository
         parent::__construct($registry, Yeti::class);
     }
 
-
     public function getRatingStatistics(): array
     {
         $qb = $this->createQueryBuilder('y');
@@ -28,30 +27,28 @@ class YetiRepository extends ServiceEntityRepository
         return $qb->getQuery()->getArrayResult();
     }
 
+    /**
+     * @return Yeti[] Returns an array of Yeti objects
+     */
+    public function findByExampleField($value): array
+    {
+        return $this->createQueryBuilder('y')
+            ->andWhere('y.exampleField = :val')
+            ->setParameter('val', $value)
+            ->orderBy('y.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
-
-        /**
-         * @return Yeti[] Returns an array of Yeti objects
-         */
-        public function findByExampleField($value): array
-        {
-            return $this->createQueryBuilder('y')
-                ->andWhere('y.exampleField = :val')
-                ->setParameter('val', $value)
-                ->orderBy('y.id', 'ASC')
-                ->setMaxResults(10)
-                ->getQuery()
-                ->getResult()
-            ;
-        }
-
-        public function findOneBySomeField($value): ?Yeti
-        {
-            return $this->createQueryBuilder('y')
-                ->andWhere('y.exampleField = :val')
-                ->setParameter('val', $value)
-                ->getQuery()
-                ->getOneOrNullResult()
-            ;
-        }
+    public function findOneBySomeField($value): ?Yeti
+    {
+        return $this->createQueryBuilder('y')
+            ->andWhere('y.exampleField = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 }

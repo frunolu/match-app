@@ -1,5 +1,7 @@
 <?php
+
 // src/Form/RatingType.php
+
 namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -15,7 +17,7 @@ class RatingType extends AbstractType
             ->add('rating', IntegerType::class, [
                 'label' => 'Rate this Yeti',
                 'required' => true,
-                'attr' => ['min' => 1, 'max' => 5]
+                'attr' => ['min' => 1, 'max' => 5],
             ]);
     }
 
