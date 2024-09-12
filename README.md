@@ -1,14 +1,5 @@
 # match-app
 
-composer run check-code
-vendor/bin/php-cs-fixer fix
-vendor/bin/phpstan analyse src
-
-php bin/console doctrine:query:sql 'SELECT * FROM yeti'
-
-
-php bin/console make:entity --regenerate
-
 ## CZ
 Projekt můžeme spustit pomocí příkazu `make start` v terminálu ve složce, kde se nachází soubor `Makefile` v kterem jsou taky podprikazy (v našem případě ve složce `match-app`).
 
@@ -73,7 +64,15 @@ Přihlašovací údaje pro Adminer jsou:
 - Heslo: toor
 - Databáze: mydb
 
+Další užitečné příkazy:
 
+```php bin/console doctrine:query:sql 'SELECT * FROM yeti'```
+
+```vendor/bin/php-cs-fixer fix```
+
+```vendor/bin/phpstan analyse src```
+
+```php bin/console make:entity --regenerate```
 
 
 --------------------------------------------------------------------------------------------
@@ -140,3 +139,13 @@ The web server is accessible at http://localhost:80. Adminer is accessible at ht
 - Username: root
 - Password: toor
 - Database: mydb
+
+More useful commands:
+
+```php bin/console doctrine:query:sql 'SELECT * FROM yeti'```
+
+```vendor/bin/php-cs-fixer fix```
+
+```vendor/bin/phpstan analyse src```
+
+```php bin/console make:entity --regenerate```
